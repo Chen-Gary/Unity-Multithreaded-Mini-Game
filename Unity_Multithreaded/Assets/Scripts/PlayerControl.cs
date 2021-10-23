@@ -14,25 +14,27 @@ public class PlayerControl : MonoBehaviour
     public LayerMask ground;
 
     private GameStatusManager gameStatusManager;
+    private LogManager logManager;
 
     private float horizontal;
     private float vertical;
     private bool jump;
-    private bool isGameEnd = false;    // win or lose
 
 
     private void Start()
     {
         gameStatusManager = GameObject.Find("GameStatusManager").GetComponent<GameStatusManager>();
+        logManager = GameObject.Find("LogManager").GetComponent<LogManager>();
     }
 
     private void Update()
     {
-        if (isGameEnd) return;
+        if (logManager.GetIsGameEnd()) return;
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Debug.Log("Quit the game.");
+            logManager.SetIsGameEndToTure();
             gameStatusManager.ManuallyQuitGame();
         }
 
@@ -52,7 +54,7 @@ public class PlayerControl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isGameEnd) return;
+        if (logManager.GetIsGameEnd()) return;
 
         // movement and rotation
         Vector3 direction = new Vector3(horizontal, 0, vertical);
@@ -69,19 +71,19 @@ public class PlayerControl : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (isGameEnd) return;
+        if (logManager.GetIsGameEnd()) return;
 
         if (collision.gameObject.layer == 8)
         {
             Debug.Log("The frog die.");
             gameStatusManager.Lose();
-            isGameEnd = true;
+            logManager.SetIsGameEndToTure();
         }
         else if (collision.gameObject.layer == 10)
         {
             Debug.Log("You win!");
             gameStatusManager.Win();
-            isGameEnd = true;
+            logManager.SetIsGameEndToTure();
         }
     }
 }

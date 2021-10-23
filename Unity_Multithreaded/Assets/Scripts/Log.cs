@@ -6,7 +6,7 @@ public class Log : MonoBehaviour
 {
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")     //check if it is the frog GameObject  ==> other.transform.parent is the Player GameObject
         {
             other.transform.parent.parent = this.transform;
         }
