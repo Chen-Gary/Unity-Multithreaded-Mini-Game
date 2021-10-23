@@ -5,29 +5,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Threading;
 
 
 public class LogManager : MonoBehaviour
 {
-    public Transform[] logs;
+    public Slider speedControlSlider;   // set in inspector
 
-    private Vector3[] posSet;
+    //public Transform[] logs;
 
-    private static bool isGameEnd = false;    //win or lose, need muxtex
+    //private Vector3[] posSet;
 
+    private float speed = 1;            // need muxtex
+    private float speedScale;
+    private Mutex speed_mutex = new Mutex();
+
+
+    private bool isGameEnd = false;        // either win or lose ==> end, need muxtex
+    private Mutex isGameEnd_mutex = new Mutex();
+
+
+    #region isGameEnd
     public bool GetIsGameEnd()
     {
-        return isGameEnd;
+        isGameEnd_mutex.WaitOne();
+        bool isGameEnd_local = isGameEnd;
+        isGameEnd_mutex.ReleaseMutex();
+
+        return isGameEnd_local;
     }
 
     public void SetIsGameEndToTure()
     {
+        isGameEnd_mutex.WaitOne();
         isGameEnd = true;
+        isGameEnd_mutex.ReleaseMutex();
     }
+    #endregion
+
+
+    #region SpeedControl
+    public void SliderUpdateSpeed()
+    {
+        speedScale = speedControlSlider.value;
+
+        speed_mutex.WaitOne();
+        speed *= speedScale;
+        speed_mutex.ReleaseMutex();
+    }
+    #endregion
+
 
     private void Start()
     {
+
         //pos = log.position;
 
         //Thread threadInstance = new Thread(new ThreadStart(threadPrint));
@@ -46,8 +78,6 @@ public class LogManager : MonoBehaviour
 
         //    Thread.Sleep(100);
         //}
-
-        //Debug.Log("print in thread");
     }
 
     private void Update()
