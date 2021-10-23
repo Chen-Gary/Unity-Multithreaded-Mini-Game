@@ -24,7 +24,7 @@ public class PlayerControl : MonoBehaviour
     private void Start()
     {
         gameStatusManager = GameObject.Find("GameStatusManager").GetComponent<GameStatusManager>();
-        logManager = GameObject.Find("LogManager").GetComponent<LogManager>();
+        logManager = LogManager._instance;
     }
 
     private void Update()
