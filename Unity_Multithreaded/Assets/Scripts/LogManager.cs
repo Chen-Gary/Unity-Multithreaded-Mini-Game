@@ -12,8 +12,8 @@ using System.Threading;
 
 public class LogManager : MonoBehaviour
 {
-    private float MAX_POSZ = 26.73004f;
-    private float MIN_POSZ = -26.76996f;
+    private float MAX_POSZ = 29.6f;
+    private float MIN_POSZ = -29.4f;
 
     public static LogManager _instance; // make LogManager a singleton
 
@@ -25,7 +25,7 @@ public class LogManager : MonoBehaviour
     private Vector3[] logsPos;          // need muxtex
     private Mutex[] logsPos_mutex;
 
-    private const float speedBase = 0.1f;
+    private const float speedBase = 0.02f;
     private float speed = speedBase;       // need muxtex
     private float speedScale;
     private Mutex speed_mutex = new Mutex();
