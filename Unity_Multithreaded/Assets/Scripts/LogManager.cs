@@ -108,6 +108,11 @@ public class LogManager : MonoBehaviour
         {
             logs[i].position = new Vector3(logs[i].position.x, logs[i].position.y, Random.Range(MIN_POSZ, MAX_POSZ));
         }
+        // randomize scaleZ (length of log)
+        for (int i = 0; i < logCount; i++)
+        {
+            logs[i].localScale = new Vector3(logs[i].localScale.x, logs[i].localScale.y, logs[i].localScale.z * Random.Range(0.85f, 1));
+        }
 
         logsPos = new Vector3[logCount];
         logsPos_mutex = new Mutex[logCount];
